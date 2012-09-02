@@ -239,14 +239,14 @@ class LoginManager(object):
         if add_context_processor:
             app.context_processor(_user_context_processor)
 
-    def add_context_processor(app, user_label='current_user'):
+    def add_context_processor(self, app, user_label='current_user'):
         """
         Adds a context processor to the app that adds a user variable to the template.
 
         :param app: The `flask.Flask` object to add context processor to.
         :param user_label: The name of the current_user variable to be added to the template. Defaults to `current_user`
         """
-         
+        # Use a defined function instead of a lambda so __name__ will not be anonymous
         def _user_context_processor():
             return { user_label: _get_user() }
         app.context_processor(_user_context_processor)
