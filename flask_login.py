@@ -133,7 +133,7 @@ def _create_identifier():
                               request.headers.get("User-Agent")), 'utf8', errors='replace')
     hsh = md5()
     hsh.update(base.encode("utf8"))
-    return hsh.digest()
+    return hsh.hexdigest()
 
 
 #: The default name of the "remember me" cookie (``remember_token``)
@@ -416,7 +416,8 @@ class LoginManager(object):
             data = encode_cookie(str(session["user_id"]))
         expires = datetime.utcnow() + duration
         # actually set it
-        response.set_cookie(cookie_name, data, expires=expires, domain=domain)
+        response.set_cookie(cookie_name, data, expires=expires,
+            httponly=config.get('SESSION_COOKIE_HTTPONLY', True), domain=domain)
 
     def _clear_cookie(self, response):
         config = current_app.config
