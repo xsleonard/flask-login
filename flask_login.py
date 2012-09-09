@@ -427,7 +427,7 @@ class LoginManager(object):
 
 
 #: A proxy for the current user.
-current_user = LocalProxy(lambda: _request_ctx_stack.top.user)
+current_user = LocalProxy(_get_user)
 
 def _user_context_processor():
     return dict(current_user=_get_user())
